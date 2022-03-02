@@ -3,6 +3,11 @@
   "version": "0.0.1",
   "description": "Template for web shaders with ogl",
   "main": "index.js",
+  "source": "src/index.html",
+  "scripts": {
+    "start": "parcel",
+    "build": "parcel build"
+  },
   "repository": "https://github.com/jeffawang/ogle",
   "author": "Jeff Wang <jeffawang@gmail.com>",
   "license": "MIT",
