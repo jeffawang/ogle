@@ -42,6 +42,8 @@ export default class Ogle<U> {
         });
 
         this.mesh = new ogl.Mesh(gl, {geometry, program});
+        
+        this.resize();
     }
 
     resize() {

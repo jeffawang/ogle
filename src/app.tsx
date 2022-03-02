@@ -14,3 +14,7 @@ function update(t) {
     requestAnimationFrame(update);
     ogle.render(t);
 }
+
+window.addEventListener("resize", function(e) {
+    ogle.resize();
+})
