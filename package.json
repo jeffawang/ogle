@@ -2,7 +2,9 @@
   "name": "ogle",
   "version": "0.0.1",
   "description": "Template for web shaders with ogl",
-  "//": { "main": "index.js"},
+  "//": {
+    "main": "index.js"
+  },
   "source": "src/index.html",
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "scripts": {
@@ -14,5 +16,8 @@
   "license": "MIT",
   "devDependencies": {
     "parcel": "^2.3.2"
+  },
+  "dependencies": {
+    "ogl-typescript": "^0.1.40"
   }
 }

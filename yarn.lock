@@ -1087,6 +1087,11 @@ nullthrows@^1.1.1:
   resolved "https://registry.yarnpkg.com/nullthrows/-/nullthrows-1.1.1.tgz#7818258843856ae971eae4208ad7d7eb19a431b1"
   integrity sha512-2vPPEi+Z7WqML2jZYddDIfy5Dqb0r2fze2zTxNNknZaFpVHU3mFB3R+DWeJWGVx0ecvttSGlJTI+WG+8Z4cDWw==
 
+ogl-typescript@^0.1.40:
+  version "0.1.40"
+  resolved "https://registry.yarnpkg.com/ogl-typescript/-/ogl-typescript-0.1.40.tgz#511f99f7e924e428552cc8203a1fb92efe807abc"
+  integrity sha512-7lpT8u35jd9W7Q48enrcCEL4H0x4co6pn5t6rXZgQN7UT39mcdzRsSr4ucZDOvfwKkUT+UvH2zw83/9mT59bFQ==
+
 ordered-binary@^1.2.4:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/ordered-binary/-/ordered-binary-1.2.4.tgz#51d3a03af078a0bdba6c7bc8f4fedd1f5d45d83e"
