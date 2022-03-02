@@ -57,7 +57,7 @@ class Ogle<U> {
         this.renderer.setSize(w, h);
     }
 
-    render(t) {
+    render(t: number) {
         this.mesh.program.uniforms.u_time.value = t * 0.001;
         this.mesh.program.uniforms.u_frame.value += 1;
         this.renderer.render({scene: this.mesh});
