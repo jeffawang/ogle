@@ -15,6 +15,7 @@
   "author": "Jeff Wang <jeffawang@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@parcel/transformer-glsl": "2.3.2",
     "parcel": "^2.3.2"
   },
   "dependencies": {
