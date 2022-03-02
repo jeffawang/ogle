@@ -11,51 +11,47 @@ function main(root: HTMLElement) {
         gl.canvas = canvases[0];
     }
 
-
-    const camera = new ogl.Camera(gl);
-    camera.position.z = 5;
-
-    function resize() {
-        renderer.setSize(root.clientWidth, root.clientHeight);
-        camera.perspective({
-            aspect: gl.canvas.width / gl.canvas.height,
-        });
-    }
-    window.addEventListener('resize', resize, false);
-
-    const scene = new ogl.Transform();
-
-    const geometry = new ogl.Box(gl);
+    const geometry = new ogl.Geometry(gl, {
+        position: {size: 2, data: new Float32Array([-1, -1, 3, -1, -1, 3])},
+        uv: {size: 2, data: new Float32Array([0, 0, 2, 0, 0, 2])},
+    });
 
     const program = new ogl.Program(gl, {
         vertex: `
-            attribute vec3 position;
+            attribute vec2 uv;
+            attribute vec2 position;
 
-            uniform mat4 modelViewMatrix;
-            uniform mat4 projectionMatrix;
+            varying vec2 vUv;
 
             void main() {
-                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                vUv = uv;
+                gl_Position = vec4(position, 0, 1);
             }
         `,
         fragment: `
-        void main() {
-            gl_FragColor = vec4(1.0);
-        }
-        `
+            precision highp float;
+            uniform float uTime;
+            varying vec2 vUv;
+            void main() {
+                gl_FragColor.rgb = vec3(0.8, 0.7, 1.0) + 0.3 * cos(vUv.xyx + uTime);
+                gl_FragColor.a = 1.0;
+            }
+        `,
+        uniforms: {
+            uTime: {value: 0},
+        },
     });
 
     const mesh = new ogl.Mesh(gl, {geometry, program});
-    mesh.setParent(scene);
 
     requestAnimationFrame(update);
     function update(t) {
         requestAnimationFrame(update);
-        mesh.rotation.y -= 0.04;
-        mesh.rotation.x += 0.03;
-        renderer.render({scene, camera});
+        program.uniforms.uTime.value = t * 0.001;
+        renderer.render({scene: mesh});
     }
 }
 
-const el = document.getElementById("main")
+// const el = document.getElementById("main");
+const el = document.body;
 main(el);
