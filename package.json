@@ -1,0 +1,9 @@
+{
+  "name": "ogle",
+  "version": "0.0.1",
+  "description": "Template for web shaders with ogl",
+  "main": "index.js",
+  "repository": "https://github.com/jeffawang/ogle",
+  "author": "Jeff Wang <jeffawang@gmail.com>",
+  "license": "MIT"
+}
