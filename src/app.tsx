@@ -35,9 +35,13 @@ window.onload = function() {
 
 
   editor.getModel().onDidChangeContent((event) => {
-    const value = editor.getValue();
-    const [ok, err] = shader_tester.test(value);
+    const frag = editor.getValue();
+    const [ok, err] = shader_tester.test(frag);
     console.log(ok, err)
+    if (ok) {
+      ogle.set_frag(frag);
+      ogle.start();
+    }
   })
 
   const ogle = new Ogle(canvas, fragment_shader, vertex_shader);
@@ -76,9 +80,11 @@ class Ogle {
   vert: string;
   frag: string;
   cmd: REGL.DrawCommand;
+  cancel: REGL.Cancellable;
+  canvas: HTMLCanvasElement;
 
   constructor(canvas: HTMLCanvasElement, frag: string, vert: string) {
-    this.regl = REGL(canvas);
+    this.canvas = canvas;
     this.frag = frag;
     this.vert = vert;
 
@@ -86,6 +92,11 @@ class Ogle {
   }
 
   set_frag(frag: string) {
+    if (this.regl) {
+      this.cancel.cancel();
+      this.regl.destroy()
+    }
+    this.regl = REGL(this.canvas);
     this.frag = frag;
     this.cmd = this.regl({
       frag: this.frag,
@@ -107,7 +118,7 @@ class Ogle {
   }
 
   start() {
-    this.regl.frame((context: REGL.DefaultContext) => {
+    this.cancel = this.regl.frame((context: REGL.DefaultContext) => {
       this.regl.clear({
         color: [0, 0, 0, 1],
         depth: 1,
