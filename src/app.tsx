@@ -5,16 +5,14 @@ import vertex_shader from './shaders/shader.vert';
 // @ts-ignore
 import fragment_shader from './shaders/shader.frag';
 
-const root = document.getElementById("main");
-const ogle = new Ogle(root, vertex_shader, fragment_shader);
-ogle.mount();
+window.onload = function() {
+  const shader_view = document.getElementById("shader-view");
+  initialize_ogle(shader_view);
 
-requestAnimationFrame(update);
-function update(t) {
-    requestAnimationFrame(update);
-    ogle.render(t);
 }
 
-window.addEventListener("resize", function(e) {
-    ogle.resize();
-})
+function initialize_ogle(root: HTMLElement) {
+  const ogle = new Ogle(vertex_shader, fragment_shader);
+  ogle.mount(root);
+  ogle.start();
+}

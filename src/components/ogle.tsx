@@ -12,17 +12,17 @@ export default class Ogle<U> {
     fragment: string;
     renderer: ogl.Renderer;
     mesh: ogl.Mesh;
+    running: boolean;
 
-    constructor(root: HTMLElement, vertex: string, fragment: string) {
-        this.root = root;
+    constructor(vertex: string, fragment: string) {
         this.vertex = vertex;
         this.fragment = fragment;
+        this.init()
     }
 
-    mount() {
+    init() {
         this.renderer = new ogl.Renderer();
         const gl = this.renderer.gl;
-        this.root.replaceChildren(gl.canvas);
 
         const geometry = new ogl.Geometry(gl, {
             position: {size: 2, data: new Float32Array([-1, -1, 3, -1, -1, 3])},
@@ -32,7 +32,7 @@ export default class Ogle<U> {
         const uniforms: Uniforms = {
             u_time: {value: 0},
             u_frame: {value: 0},
-            u_resolution: {value: new ogl.Vec2(this.root.clientWidth, this.root.clientHeight)},
+            u_resolution: {value: new ogl.Vec2()},
         }
 
         const program = new ogl.Program(gl, {
@@ -43,7 +43,14 @@ export default class Ogle<U> {
 
         this.mesh = new ogl.Mesh(gl, {geometry, program});
         
+        this.running = false;
+    }
+
+    mount(el: HTMLElement) {
+        this.root = el;
+        el.replaceChildren(this.renderer.gl.canvas);
         this.resize();
+        window.addEventListener("resize", this.resize.bind(this));
     }
 
     resize() {
@@ -54,9 +61,22 @@ export default class Ogle<U> {
         this.renderer.setSize(w, h);
     }
 
-    render(t: number) {
+    update(t) {
         this.mesh.program.uniforms.u_time.value = t * 0.001;
         this.mesh.program.uniforms.u_frame.value += 1;
         this.renderer.render({scene: this.mesh});
+        
+        if (this.running) {
+            requestAnimationFrame(this.update.bind(this));
+        }
+    }
+
+    start() {
+        this.running = true;
+        requestAnimationFrame(this.update.bind(this));
+    }
+
+    stop() {
+        this.running = false;
     }
 }
