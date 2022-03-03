@@ -2,45 +2,38 @@ import REGL from 'regl';
 
 export default class Ogle {
   regl: REGL.Regl;
-  vert: string;
   frag: string;
-  cmd: REGL.DrawCommand;
+  draw_cmd: REGL.DrawCommand;
   cancel: REGL.Cancellable;
-  canvas: HTMLCanvasElement;
 
   constructor(canvas: HTMLCanvasElement, frag: string, vert: string) {
-    this.canvas = canvas;
+    this.regl = REGL(canvas);
     this.frag = frag;
-    this.vert = vert;
-
-    this.set_frag(frag);
-  }
-
-  set_frag(frag: string) {
-    if (this.regl) {
-      if (this.cancel)
-        this.cancel.cancel();
-      this.regl.destroy()
-    }
-    this.regl = REGL(this.canvas);
-    this.frag = frag;
-    this.cmd = this.regl({
-      frag: this.frag,
-      vert: this.vert,
+    this.draw_cmd = this.regl({
+      frag: this.regl.prop<{frag: string}, "frag">("frag"),
+      vert: vert,
       attributes: {
         position: [[-1, -1], [3, -1], [-1, 3]],
         uv: [0, 0, 2, 0, 0, 2],
       },
       uniforms: {
-        u_time: ({ time }) => time,
-        u_frame: ({ tick }) => tick,
+        u_time: this.regl.context("time"),
+        u_frame: this.regl.context("tick"),
       },
       count: 3,
     });
   }
 
+  set_frag(frag: string) {
+    this.frag = frag;
+  }
+
   draw() {
-    this.cmd();
+    this.draw_cmd({frag: this.frag});
+  }
+
+  stop() {
+    this.cancel.cancel();
   }
 
   start() {
@@ -49,7 +42,7 @@ export default class Ogle {
         color: [0, 0, 0, 1],
         depth: 1,
       })
-      this.cmd();
+      this.draw();
     });
   }
 }
