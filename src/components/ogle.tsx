@@ -5,6 +5,7 @@ export default class Ogle {
   frag: string;
   draw_cmd: REGL.DrawCommand;
   cancel: REGL.Cancellable;
+  running: boolean;
 
   constructor(canvas: HTMLCanvasElement, frag: string, vert: string) {
     this.regl = REGL(canvas);
@@ -22,6 +23,7 @@ export default class Ogle {
       },
       count: 3,
     });
+    this.running = false;
   }
 
   set_frag(frag: string) {
@@ -29,20 +31,35 @@ export default class Ogle {
   }
 
   draw() {
+    this.regl.clear({
+      color: [0, 0, 0, 1],
+      depth: 1,
+    })
     this.draw_cmd({frag: this.frag});
   }
 
+  toggle() {
+    if (this.running)
+      this.stop();
+    else
+      this.start();
+  }
+
   stop() {
+    if (!this.running) {
+      console.warn("Tried to stop already stopped ogle!");
+      return;
+    }
+    this.running = false;
     this.cancel.cancel();
   }
 
   start() {
-    this.cancel = this.regl.frame((context: REGL.DefaultContext) => {
-      this.regl.clear({
-        color: [0, 0, 0, 1],
-        depth: 1,
-      })
-      this.draw();
-    });
+    if (this.running) {
+      console.warn("Tried to start already running ogle!");
+      return;
+    }
+    this.running = true;
+    this.cancel = this.regl.frame((context: REGL.DefaultContext) => this.draw());
   }
 }

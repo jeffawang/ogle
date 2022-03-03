@@ -28,5 +28,10 @@ window.onload = function () {
     }
   };
 
+  const playpausebutton = document.getElementById("playpause");
+  playpausebutton.onclick = function(e) {
+    ogle.toggle();
+  };
+
   const editor = new ShaderEditor(editor_root, fragment, on_change);
 }
