@@ -102,7 +102,7 @@ export default class Ogle {
 
 class ShaderTester {
     tester: WebGLShader;
-    gl: ogl.OGLRenderingContext;
+    gl: WebGLRenderingContext | WebGL2RenderingContext;
     source: string;
     last_error: string;
 

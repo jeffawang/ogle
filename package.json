@@ -19,6 +19,7 @@
     "parcel": "^2.3.2"
   },
   "dependencies": {
-    "ogl-typescript": "^0.1.40"
+    "ogl-typescript": "^0.1.40",
+    "regl": "^2.1.0"
   }
 }
