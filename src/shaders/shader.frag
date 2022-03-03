@@ -1,4 +1,5 @@
 precision highp float;
+uniform int u_frame;
 uniform float u_time;
 varying vec2 v_uv;
 void main() {
