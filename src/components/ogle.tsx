@@ -31,10 +31,6 @@ export default class Ogle {
   }
 
   draw() {
-    this.regl.clear({
-      color: [0, 0, 0, 1],
-      depth: 1,
-    })
     this.draw_cmd({frag: this.frag});
   }
 
