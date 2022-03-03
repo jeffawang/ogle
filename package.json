@@ -16,9 +16,12 @@
   "license": "MIT",
   "devDependencies": {
     "@parcel/transformer-glsl": "2.3.2",
-    "parcel": "^2.3.2"
+    "buffer": "^6.0.3",
+    "parcel": "^2.3.2",
+    "process": "^0.11.10"
   },
   "dependencies": {
+    "monaco-editor": "0.31.0",
     "ogl-typescript": "^0.1.40",
     "regl": "^2.1.0"
   }
