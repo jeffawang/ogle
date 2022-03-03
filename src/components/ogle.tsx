@@ -6,21 +6,18 @@ type Uniforms = {
     u_resolution: {value: ogl.Vec2},
 };
 
-export default class Ogle<U> {
+export default class Ogle {
     root: HTMLElement;
     vertex: string;
     fragment: string;
     renderer: ogl.Renderer;
     mesh: ogl.Mesh;
     running: boolean;
+    shader_tester: ShaderTester
 
     constructor(vertex: string, fragment: string) {
         this.vertex = vertex;
         this.fragment = fragment;
-        this.init()
-    }
-
-    init() {
         this.renderer = new ogl.Renderer();
         const gl = this.renderer.gl;
 
@@ -42,6 +39,7 @@ export default class Ogle<U> {
         });
 
         this.mesh = new ogl.Mesh(gl, {geometry, program});
+        this.shader_tester = new ShaderTester(gl);
         
         this.running = false;
     }
@@ -71,6 +69,27 @@ export default class Ogle<U> {
         }
     }
 
+    set_shader(fragment: string) {
+        console.log("SETTING SHADER");
+        this.fragment = fragment;
+
+        const gl = this.mesh.gl;
+
+        const [ok, msg] = this.shader_tester.test(fragment);
+
+        if (!ok) {
+            console.warn(msg);
+            return;
+        }
+
+        const program = new ogl.Program(this.mesh.gl, {
+            vertex: this.vertex,
+            fragment: this.fragment,
+            uniforms: this.mesh.program.uniforms,
+        });
+        this.mesh.program = program;
+    }
+
     start() {
         this.running = true;
         requestAnimationFrame(this.update.bind(this));
@@ -78,5 +97,25 @@ export default class Ogle<U> {
 
     stop() {
         this.running = false;
+    }
+}
+
+class ShaderTester {
+    tester: WebGLShader;
+    gl: ogl.OGLRenderingContext;
+    source: string;
+    last_error: string;
+
+    constructor(gl: ogl.OGLRenderingContext) {
+        this.gl = gl;
+        this.tester = gl.createShader(gl.FRAGMENT_SHADER);
+    }
+
+    test(fragment: string): [boolean, string] {
+        this.source = fragment;
+        this.gl.shaderSource(this.tester, fragment);
+        this.gl.compileShader(this.tester);
+        this.last_error = this.gl.getShaderInfoLog(this.tester);
+        return [this.last_error === '', this.last_error];
     }
 }
