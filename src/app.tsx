@@ -13,7 +13,8 @@ window.onload = function() {
   shader_editor.textContent = fragment_shader;
   shader_editor.addEventListener("input", function(e) {
     // console.log("update")
-    ogle.set_shader(e.target.value);
+    const target = e.target as HTMLTextAreaElement;
+    ogle.set_shader(target.value);
   });
 }
 
