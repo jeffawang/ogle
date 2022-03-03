@@ -11,14 +11,29 @@ import { threadId } from 'worker_threads';
 
 window.onload = function() {
 
+
+
   let canvas = document.getElementById("shader-view") as HTMLCanvasElement;
   let gl = canvas.getContext("webgl");
   const shader_tester = new ShaderTester(gl);
 
   const editor = monaco.editor.create(/** @type {HTMLElement} */ (document.getElementById('monaco-editor')), {
     value: fragment_shader,
-    language: 'glsl'
+    language: 'glsl',
+    minimap: {enabled: false},
+    theme: 'vs'
   });
+
+  monaco.editor.setModelMarkers(editor.getModel(), "owner", [{
+    startLineNumber: 1,
+    severity: monaco.MarkerSeverity.Error,
+    message: "wtf are you doing",
+    startColumn: 1,
+    endLineNumber: 3,
+    endColumn: 100
+  }]);
+
+
   editor.getModel().onDidChangeContent((event) => {
     const value = editor.getValue();
     const [ok, err] = shader_tester.test(value);
@@ -27,6 +42,8 @@ window.onload = function() {
 
   const ogle = new Ogle(canvas, fragment_shader, vertex_shader);
   ogle.start();
+
+  window.addEventListener("resize", (_) => (editor.layout()));
 
   // const regl = REGL(canvas);
 

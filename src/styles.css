@@ -5,7 +5,7 @@ h1 {
 html, body {
   height: 100%;
   margin: 0;
-  background-color: black;
+  /* background-color: black; */
 }
 
 .fill {
@@ -23,3 +23,52 @@ html, body {
 
 #shader-view {
 }
+
+.monaco-editor .monaco-editor-background {
+  background-color: rgba(255, 0, 0, 0.01) !important;
+}
+
+.view-lines {
+  background-color: rgba(255, 0, 0, 0);
+}
+
+span {
+  /* color: red !important; */
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.monaco-editor, .monaco-editor-background, .monaco-editor .inputarea.ime-input { background-color:rgba(255, 0, 0, 0) !important; }
+.monaco-editor .margin { background-color:rgba(255, 0, 0, 0) !important; }
+/* 
+.monaco-editor .rangeHighlight { background-color:rgba(255, 0, 0, 0) !important; }
+.monaco-editor .symbolHighlight { background-color:rgba(255, 0, 0, 0) !important; }
+.monaco-editor .focused .selected-text { background-color:rgba(255, 0, 0, 0) !important; }
+.monaco-editor .selected-text { background-color:rgba(255, 0, 0, 0) !important; }
+.monaco-editor .cursors-layer .cursor { background-color:rgba(255, 0, 0, 0) !important; }
+.monaco-editor .line-insert, .monaco-editor .char-insert { background-color:rgba(255, 0, 0, 0) !important; }
+.monaco-diff-editor .line-insert, .monaco-diff-editor .char-insert { background-color:rgba(255, 0, 0, 0) !important; }
+.monaco-editor .inline-added-margin-view-zone { background-color:rgba(255, 0, 0, 0) !important; }
+.monaco-editor .line-delete, .monaco-editor .char-delete { background-color:rgba(255, 0, 0, 0) !important; }
+.monaco-diff-editor .line-delete, .monaco-diff-editor .char-delete { background-color:rgba(255, 0, 0, 0) !important; }
+.monaco-editor .inline-deleted-margin-view-zone { background-color:rgba(255, 0, 0, 0) !important; }
+.monaco-editor .bracket-match { background-color:rgba(255, 0, 0, 0) !important; }
+.monaco-editor .hoverHighlight { background-color:rgba(255, 0, 0, 0) !important; }
+.monaco-editor .monaco-hover { background-color:rgba(255, 0, 0, 0) !important; }
+.monaco-editor .monaco-hover .hover-row .actions { background-color:rgba(255, 0, 0, 0) !important; }
+.monaco-editor .monaco-hover code { background-color:rgba(255, 0, 0, 0) !important; }
+.monaco-editor .findOptionsWidget { background-color:rgba(255, 0, 0, 0) !important; }
+.monaco-editor .findMatch { background-color:rgba(255, 0, 0, 0) !important; }
+.monaco-editor .currentFindMatch { background-color:rgba(255, 0, 0, 0) !important; }
+.monaco-editor .findScope { background-color:rgba(255, 0, 0, 0) !important; }
+.monaco-editor .find-widget { background-color:rgba(255, 0, 0, 0) !important; }
+.monaco-editor .find-widget .monaco-sash { background-color:rgba(255, 0, 0, 0) !important; }
+.monaco-editor .folded-background { background-color:rgba(255, 0, 0, 0) !important; }
+.monaco-editor .parameter-hints-widget { background-color:rgba(255, 0, 0, 0) !important; }
+.monaco-editor .parameter-hints-widget code { background-color:rgba(255, 0, 0, 0) !important; }
+.monaco-editor .focused .selectionHighlight { background-color:rgba(255, 0, 0, 0) !important; }
+.monaco-editor .selectionHighlight { background-color:rgba(255, 0, 0, 0) !important; }
+.monaco-editor .wordHighlight { background-color:rgba(255, 0, 0, 0) !important; }
+.monaco-editor .wordHighlightStrong { background-color:rgba(255, 0, 0, 0) !important; }
+.monaco-editor .accessibilityHelpWidget { background-color:rgba(255, 0, 0, 0) !important; }
+.monaco-editor .tokens-inspect-widget .tokens-inspect-separator { background-color:rgba(255, 0, 0, 0) !important; }
+.monaco-editor .tokens-inspect-widget { background-color:rgba(255, 0, 0, 0) !important; } */ */
