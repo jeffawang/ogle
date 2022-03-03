@@ -1,150 +1,32 @@
-// import Ogle from './components/ogle';
-import REGL, { Regl } from 'regl';
+import Ogle from './components/ogle';
+import ShaderTester from './components/shader_tester';
+import ShaderEditor from './components/editor';
 
 // @ts-ignore
-import vertex_shader from './shaders/shader.vert';
+import vertex from './shaders/shader.vert';
 // @ts-ignore
-import fragment_shader from './shaders/shader.frag';
+import fragment from './shaders/shader.frag';
 
-import * as monaco from 'monaco-editor';
-import { threadId } from 'worker_threads';
-
-window.onload = function() {
-
-
+window.onload = function () {
 
   let canvas = document.getElementById("shader-view") as HTMLCanvasElement;
   let gl = canvas.getContext("webgl");
+
+  const ogle = new Ogle(canvas, fragment, vertex);
+  ogle.start();
+
   const shader_tester = new ShaderTester(gl);
 
-  const editor = monaco.editor.create(/** @type {HTMLElement} */ (document.getElementById('monaco-editor')), {
-    value: fragment_shader,
-    language: 'glsl',
-    minimap: {enabled: false},
-    theme: 'vs'
-  });
+  const editor_root = document.getElementById('monaco-editor');
 
-  monaco.editor.setModelMarkers(editor.getModel(), "owner", [{
-    startLineNumber: 1,
-    severity: monaco.MarkerSeverity.Error,
-    message: "wtf are you doing",
-    startColumn: 1,
-    endLineNumber: 3,
-    endColumn: 100
-  }]);
-
-
-  editor.getModel().onDidChangeContent((event) => {
-    const frag = editor.getValue();
+  const on_change = (frag: string) => {
     const [ok, err] = shader_tester.test(frag);
     console.log(ok, err)
     if (ok) {
       ogle.set_frag(frag);
       ogle.start();
     }
-  })
+  };
 
-  const ogle = new Ogle(canvas, fragment_shader, vertex_shader);
-  ogle.start();
-
-  window.addEventListener("resize", (_) => (editor.layout()));
-
-  // const regl = REGL(canvas);
-
-  // const draw = regl({
-  //   frag: fragment_shader,
-  //   vert: vertex_shader,
-  //   attributes: {
-  //     position: [[-1, -1], [3, -1], [-1, 3]],
-  //     uv: [0, 0, 2, 0, 0, 2],
-  //   },
-  //   uniforms: {
-  //     u_time: ({time}) => time,
-  //     u_frame: ({tick}) => tick,
-  //   },
-  //   count: 3,
-
-  // });
-
-  // let cancel = regl.frame((context: REGL.DefaultContext) => {
-  //   regl.clear({
-  //     color: [0, 0, 0, 1],
-  //     depth: 1,
-  //   })
-  //   draw();
-  // })
-}
-
-class Ogle {
-  regl: REGL.Regl;
-  vert: string;
-  frag: string;
-  cmd: REGL.DrawCommand;
-  cancel: REGL.Cancellable;
-  canvas: HTMLCanvasElement;
-
-  constructor(canvas: HTMLCanvasElement, frag: string, vert: string) {
-    this.canvas = canvas;
-    this.frag = frag;
-    this.vert = vert;
-
-    this.set_frag(frag);
-  }
-
-  set_frag(frag: string) {
-    if (this.regl) {
-      this.cancel.cancel();
-      this.regl.destroy()
-    }
-    this.regl = REGL(this.canvas);
-    this.frag = frag;
-    this.cmd = this.regl({
-      frag: this.frag,
-      vert: this.vert,
-      attributes: {
-        position: [[-1, -1], [3, -1], [-1, 3]],
-        uv: [0, 0, 2, 0, 0, 2],
-      },
-      uniforms: {
-        u_time: ({time}) => time,
-        u_frame: ({tick}) => tick,
-      },
-      count: 3,
-    });
-  }
-
-  draw() {
-    this.cmd();
-  }
-
-  start() {
-    this.cancel = this.regl.frame((context: REGL.DefaultContext) => {
-      this.regl.clear({
-        color: [0, 0, 0, 1],
-        depth: 1,
-      })
-      this.cmd();
-    });
-  }
-}
-
-
-class ShaderTester {
-  tester: WebGLShader;
-  gl: WebGLRenderingContext | WebGL2RenderingContext;
-  source: string;
-  last_error: string;
-
-  constructor(gl: WebGLRenderingContext | WebGL2RenderingContext) {
-      this.gl = gl;
-      this.tester = gl.createShader(gl.FRAGMENT_SHADER);
-  }
-
-  test(fragment: string): [boolean, string] {
-      this.source = fragment;
-      this.gl.shaderSource(this.tester, fragment);
-      this.gl.compileShader(this.tester);
-      this.last_error = this.gl.getShaderInfoLog(this.tester);
-      return [this.last_error === '', this.last_error];
-  }
+  const editor = new ShaderEditor(editor_root, fragment, on_change);
 }
