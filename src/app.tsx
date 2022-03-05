@@ -1,4 +1,5 @@
 import Ogle from './components/ogle';
+import * as monaco from 'monaco-editor';
 import ShaderTester from './components/shader_tester';
 import ShaderEditor from './components/editor';
 
@@ -7,7 +8,7 @@ import vertex from './shaders/shader.vert';
 // @ts-ignore
 import fragment from './shaders/shader.frag';
 
-window.onload = function () {
+window.onload = async function () {
 
   let canvas = document.getElementById("shader-view") as HTMLCanvasElement;
   let gl = canvas.getContext("webgl");
@@ -34,4 +35,5 @@ window.onload = function () {
   };
 
   const editor = new ShaderEditor(editor_root, fragment, on_change);
+  await editor.colorize();
 }
