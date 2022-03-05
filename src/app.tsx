@@ -28,7 +28,7 @@ window.onload = async function () {
   };
 
   const playpausebutton = document.getElementById("playpause");
-  playpausebutton.onclick = function(e) {
+  playpausebutton.onclick = function (e) {
     ogle.toggle();
   };
 
