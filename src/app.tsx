@@ -1,5 +1,4 @@
 import Ogle from './components/ogle';
-import * as monaco from 'monaco-editor';
 import ShaderTester from './components/shader_tester';
 import ShaderEditor from './components/editor';
 
@@ -25,7 +24,6 @@ window.onload = async function () {
     console.log(ok, err)
     if (ok) {
       ogle.set_frag(frag);
-      ogle.start();
     }
   };
 
