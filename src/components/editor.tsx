@@ -1,8 +1,8 @@
 import * as monaco from 'monaco-editor';
 import Parser from "web-tree-sitter";
-import { Theme, Language, MonacoTreeSitter } from "monaco-tree-sitter";
+import { Theme, Language, MonacoTreeSitter, ThemeConfig } from "monaco-tree-sitter";
 
-import Tomorrow from 'monaco-tree-sitter/themes/tomorrow.json';
+import OgleTheme from './theme.json';
 import C from 'monaco-tree-sitter/grammars/c.json';
 
 type OnChangeHandler = (e: string) => void;
@@ -25,7 +25,7 @@ export default class ShaderEditor {
   }
 
   async colorize() {
-    Theme.load(Tomorrow);
+    Theme.load(OgleTheme as ThemeConfig);
     await Parser.init();
     const language = new Language(C);
     await language.init('tree-sitter-glsl.wasm', Parser);
