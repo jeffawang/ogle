@@ -21,9 +21,6 @@ html, body {
   border: none;
 }
 
-#shader-view {
-}
-
 .monaco-editor .monaco-editor-background {
   background-color: rgba(255, 0, 0, 0.01) !important;
 }
